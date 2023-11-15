@@ -1,0 +1,42 @@
+@import "./mixins";
+@import "./variables";
+@import "./typography";
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+html {
+  font-size: 62.5%;
+
+  @include respond(sm-phone) {
+    font-size: 50%;
+  }
+
+  @include respond(tab-lg_sm) {
+    font-size: 60%;
+  }
+  @include respond(sm-desktop) {
+    font-size: 70%;
+  }
+  @include respond(lg-desktop) {
+    font-size: 80%;
+  }
+}
+
+body {
+  box-sizing: border-box;
+}
+
+a {
+  &,
+  &:link,
+  &:visited {
+    text-decoration: none;
+    color: inherit;
+  }
+}
