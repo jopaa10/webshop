@@ -5,7 +5,7 @@ function Layout(props: any) {
   return (
     <Fragment>
       <Header />
-      <main>{props.children}</main>
+      <div>{props.children}</div>
     </Fragment>
   );
 }

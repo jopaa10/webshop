@@ -1,36 +1,9 @@
-import { useRouter } from "next/navigation";
 import styles from "./home.module.scss";
 
+import { MOCK_DATA } from "@/utils/mockData";
+import Card from "./card";
+
 function HomeComponent() {
-  const MOCK_DATA = [
-    {
-      id: 1,
-      title: "Samsung Galaxy s10",
-      price: 499.99,
-      quantity: 1,
-    },
-    {
-      id: 2,
-      title: "Samsung Galaxy s21",
-      price: 599.99,
-      quantity: 1,
-    },
-    {
-      id: 3,
-      title: "Samsung Galaxy s20",
-      price: 299.99,
-      quantity: 1,
-    },
-  ];
-
-  const router = useRouter();
-
-  console.log(router);
-
-  const handleNavigateToDetails = (id: number) => {
-    router.push(`/${id}`);
-  };
-
   return (
     <div className={styles.home}>
       <p className={styles.home__title}>Home</p>
@@ -38,16 +11,42 @@ function HomeComponent() {
       <div className={styles.cardContainer}>
         {MOCK_DATA.map((item: any) => {
           return (
-            <button
-              className={styles.card}
-              key={item.id}
-              onClick={() => handleNavigateToDetails(item.id)}
-            >
-              <p className={styles.title}>{item.title}</p>
-              <img src="" alt={item.title} />
-              <p className={styles.price}>price: {item.price}</p>
-              <p className={styles.quantity}>quantity: {item.quantity}</p>
-            </button>
+            <Card key={item.id} card={item} />
+            // <div className={styles.card} key={item.id}>
+            //   <span
+            //     className={styles.favoriteIcon}
+            //     onClick={() => handleAddToFavorites(item.id)}
+            //   >
+            //     {toggleFavoriteIcon &&
+            //     activeIdFavoriteIcon &&
+            //     activeIdFavoriteIcon.includes(item.id) ? (
+            //       <TurnedInIcon color="inherit" fontSize="inherit" />
+            //     ) : (
+            //       <TurnedInNotIcon color="inherit" fontSize="inherit" />
+            //     )}
+            //   </span>
+
+            //   <Image
+            //     src={item.image}
+            //     alt={item.title}
+            //     width={150}
+            //     height={150}
+            //   />
+
+            //   <a
+            //     onClick={() => handleNavigateToDetails(item.id)}
+            //     className={styles.title}
+            //   >
+            //     {item.title}
+            //   </a>
+
+            //   <p className={styles.detail}>{item.detail}</p>
+            //   <p className={styles.price}>{item.price} $</p>
+            //   <button className={styles.shoppingIcon}>
+            //     <span>Add</span>
+            //     <ShoppingBasketIcon />
+            //   </button>
+            // </div>
           );
         })}
       </div>

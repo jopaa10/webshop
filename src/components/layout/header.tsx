@@ -1,9 +1,9 @@
-import styles from "./header.module.scss";
+import "./header.scss";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
 import MenuIcon from "@mui/icons-material/Menu";
-import { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 type Pages = {
   pathname: string;
@@ -60,10 +60,10 @@ function Header() {
   };
 
   return (
-    <header className={styles.header}>
-      <nav className={styles.navbar}>
-        <div className={styles.navbarContainer}>
-          <div className={styles.logo}>
+    <header className={"header"}>
+      <nav className={"navbar"}>
+        <div className={"navbar__container"}>
+          <div className={"logo"}>
             <p>Webshop</p>
           </div>
           <ul
@@ -77,9 +77,7 @@ function Header() {
               return (
                 <li
                   key={item.pathname}
-                  className={
-                    router.pathname === item.pathname ? styles.active : ""
-                  }
+                  className={router.pathname === item.pathname ? "active" : ""}
                 >
                   <Link href={item.pathname}>{item.name}</Link>
                 </li>
@@ -88,7 +86,7 @@ function Header() {
           </ul>
         </div>
         <button
-          className={styles.menuIcon}
+          className={"menu-icon"}
           onClick={handleOpenMenu}
           style={{ display: `${windowSize.width < 480 ? "flex" : "none"}` }}
         >
