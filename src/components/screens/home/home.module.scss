@@ -1,0 +1,12 @@
+@import "@/styles/scss/_variables.scss";
+
+.home {
+  .cardContainer {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    gap: 2rem;
+
+    margin: 12rem 0;
+  }
+}

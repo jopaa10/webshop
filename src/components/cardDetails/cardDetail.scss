@@ -1,0 +1,89 @@
+@import "../../styles/scss/mixins";
+@import "../../styles/scss/variables";
+
+.card-info-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+
+  width: 100%;
+  height: 100%;
+
+  padding: 10rem 1rem;
+
+  @include respond(sm-phone) {
+    flex-wrap: wrap;
+  }
+
+  &__image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    min-width: 50svw;
+    height: 50svh;
+  }
+
+  &__detail {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    align-self: center;
+    gap: 2rem;
+
+    min-width: 50svw;
+    width: 100%;
+
+    color: $card-text;
+
+    .card-title {
+      font-size: 2rem;
+    }
+
+    .card-description {
+      font-size: 1.5rem;
+      color: #959595;
+    }
+
+    .card-price {
+      font-size: 2rem;
+      font-weight: 600;
+    }
+
+    .card-button-container {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      flex-wrap: wrap;
+
+      gap: 5rem;
+      padding: 2rem 0;
+
+      .card-add-to-button,
+      .card-buy-button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 0.5rem;
+
+        width: 12rem;
+        min-width: 8rem;
+        height: 4rem;
+        min-height: 3rem;
+
+        border-radius: 0.8rem;
+        background: transparent;
+        color: $card-text;
+        border: 1px solid grey;
+
+        transition: all 0.4s ease-in-out;
+
+        cursor: pointer;
+
+        &:hover {
+          transform: scale(1.2);
+        }
+      }
+    }
+  }
+}

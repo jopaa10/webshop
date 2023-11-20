@@ -1,0 +1,33 @@
+//Media queries //breakpoints
+/*
+0-480px:        Smartphone
+481-768px:      Tablet & large smartphones
+769-1279px:     Laptops, small desktops
+1280+:          Large desktops
+*/
+
+@mixin respond($breakpoint) {
+  @if $breakpoint == sm-phone {
+    @media (max-width: $sm) {
+      @content;
+    }
+  }
+
+  @if $breakpoint == tab-lg_sm {
+    @media screen and (min-width: $md) {
+      @content;
+    }
+  }
+
+  @if $breakpoint == sm-desktop {
+    @media screen and (min-width: $lg) {
+      @content;
+    }
+  }
+
+  @if $breakpoint == lg-desktop {
+    @media (min-width: $extra-lg) {
+      @content;
+    }
+  }
+}
