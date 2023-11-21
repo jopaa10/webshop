@@ -1,6 +1,6 @@
-import { FavoriteData } from "@/types/favorites";
+import { CartData } from "@/types/cart";
 import { AddToLocalStorage, LSKeyType } from "@/utils/addToLS";
-import { MOCK_DATA } from "@/utils/mockData";
+import { getCardById } from "@/utils/mockData";
 import { Actions } from "./actions";
 
 interface Action {
@@ -9,22 +9,39 @@ interface Action {
 }
 
 interface State {
-  favorites: FavoriteData[];
+  favorites: CartData[];
+  cart: CartData[];
+  totalQuantity: number;
+  startAnimation: boolean;
 }
 
 export const reducer = (state: State, action: Action) => {
   if (action.type === Actions.ADD_TO_FAVORITES) {
-    const favoritesData = MOCK_DATA.find(
-      (item: FavoriteData) => item.id === Number(action.payload.id)
+    const storedFavorites: CartData[] = JSON.parse(
+      localStorage.getItem(LSKeyType.FAVORITES) || "[]"
     );
 
-    if (favoritesData) {
-      state.favorites = [...state.favorites, favoritesData];
-      AddToLocalStorage({ key: LSKeyType.FAVORITES, items: state.favorites });
+    const favoritesSet = new Set<CartData>(storedFavorites);
+    const isFavorite = storedFavorites.find(
+      (item) => item.id === Number(action.payload.id)
+    );
+
+    let updatedFavorites: CartData[];
+
+    if (isFavorite) {
+      favoritesSet.delete(isFavorite);
+      updatedFavorites = Array.from(favoritesSet);
+    } else {
+      const favoritesData: CartData = getCardById(Number(action.payload.id))!;
+      favoritesSet.add(favoritesData);
+      updatedFavorites = Array.from(favoritesSet);
     }
 
-    return { ...state, favorites: state.favorites };
+    AddToLocalStorage({ key: LSKeyType.FAVORITES, items: updatedFavorites });
+
+    return { ...state, favorites: updatedFavorites };
   }
+
   if (action.type === Actions.REMOVE_FROM_FAVORITES) {
     const dataFromLocalStorage = JSON.parse(
       localStorage.getItem(LSKeyType.FAVORITES) || "[]"
@@ -34,11 +51,11 @@ export const reducer = (state: State, action: Action) => {
 
     if (dataFromLocalStorage) {
       newFavorites = dataFromLocalStorage.filter(
-        (item: FavoriteData) => item.id !== Number(action.payload.id)
+        (item: CartData) => item.id !== Number(action.payload.id)
       );
     } else {
       newFavorites = state.favorites.filter(
-        (item: FavoriteData) => item.id !== Number(action.payload.id)
+        (item: CartData) => item.id !== Number(action.payload.id)
       );
     }
 
@@ -49,5 +66,69 @@ export const reducer = (state: State, action: Action) => {
       favorites: newFavorites,
     };
   }
+
+  if (action.type === Actions.ADD_TO_CART) {
+    state.cart = JSON.parse(localStorage.getItem(LSKeyType.CART_ITEMS) || "[]");
+
+    let isAnimationStarted = false;
+
+    const isItemInCart = state.cart.find(
+      (item: CartData) => item.id === Number(action.payload.id)
+    );
+
+    let updatedCart;
+
+    if (isItemInCart) {
+      updatedCart = state.cart.map((item: CartData) =>
+        item.id === Number(action.payload.id)
+          ? { ...item, quantity: item.quantity + 1 }
+          : item
+      );
+    } else {
+      isAnimationStarted = true;
+      const cartData = getCardById(Number(action.payload.id));
+      updatedCart = [...state.cart, cartData] as CartData[];
+    }
+
+    AddToLocalStorage({ key: LSKeyType.CART_ITEMS, items: updatedCart });
+
+    return {
+      ...state,
+      cart: updatedCart,
+      startAnimation: isAnimationStarted,
+    };
+  }
+
+  if (action.type === Actions.REMOVE_FROM_CART) {
+    const storedCartItems: CartData[] = JSON.parse(
+      localStorage.getItem(LSKeyType.CART_ITEMS) || "[]"
+    );
+    const cartItems = new Set<CartData>(storedCartItems);
+
+    const itemToRemove = Array.from(cartItems).find(
+      (item: CartData) => item.id === Number(action.payload.id)
+    );
+
+    if (itemToRemove) {
+      cartItems.delete(itemToRemove);
+    }
+
+    AddToLocalStorage({
+      key: LSKeyType.CART_ITEMS,
+      items: Array.from(cartItems),
+    });
+
+    return {
+      ...state,
+      cart: Array.from(cartItems),
+    };
+  }
+
+  // if(action.type === Actions.INCREASE_QUANTITY) {
+  //   const storedCartItems = JSON.parse(localStorage.getItem(LSKeyType.CART_ITEMS) || '[]')
+
+  //   const is
+  // }
+
   throw new Error(`no matching action types: ${action.type}`);
 };

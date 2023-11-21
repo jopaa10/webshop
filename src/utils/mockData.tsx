@@ -1,6 +1,6 @@
-import { CardData } from "@/types/card";
+import { CartData } from "@/types/cart";
 
-export const MOCK_DATA = [
+export const MOCK_DATA: CartData[] = [
   {
     id: 1,
     title: "Samsung Galaxy s10",
@@ -27,6 +27,6 @@ export const MOCK_DATA = [
   },
 ];
 
-export const getCardById = (id: number) => {
-  return MOCK_DATA.find((item: CardData) => item.id === id);
+export const getCardById = (id: number | string) => {
+  return MOCK_DATA.find((item: CartData) => item.id === id);
 };

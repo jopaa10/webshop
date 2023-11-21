@@ -3,16 +3,23 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 
 import MenuIcon from "@mui/icons-material/Menu";
-import { useEffect, useState } from "react";
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+import { useEffect, useRef, useState } from "react";
+import { useGlobalContext } from "@/context/context";
 
-type Pages = {
+interface Pages {
   pathname: string;
   name: string;
-};
+  icon?: string;
+}
 
 function Header() {
   const router = useRouter();
+  const { totalQuantity, startAnimation } = useGlobalContext();
+
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+  const [animate, setAnimate] = useState<boolean>(startAnimation);
+  const isMounting = useRef(true);
 
   const [windowSize, setWindowSize] = useState({
     width: 0,
@@ -29,16 +36,19 @@ function Header() {
         height: window.innerHeight,
       });
     }
-
-    // Add event listener
     window.addEventListener("resize", handleResize);
+
+    if (isMounting.current) {
+      isMounting.current = false;
+    } else {
+      setAnimate(true);
+    }
 
     // Call handler right away so state gets updated with initial window size
     handleResize();
 
-    // Remove event listener on cleanup
     return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  }, [totalQuantity]);
 
   const pages: Pages[] = [
     {
@@ -80,6 +90,19 @@ function Header() {
                   className={router.pathname === item.pathname ? "active" : ""}
                 >
                   <Link href={item.pathname}>{item.name}</Link>
+                  {item.pathname.includes("shop") && (
+                    <>
+                      <div
+                        className={`shopping-cart-icon-container ${
+                          animate ? "animation" : ""
+                        }`}
+                        onAnimationEnd={() => setAnimate(false)}
+                      >
+                        <AddShoppingCartIcon />
+                        <p>{totalQuantity}</p>
+                      </div>
+                    </>
+                  )}
                 </li>
               );
             })}

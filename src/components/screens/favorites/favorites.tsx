@@ -3,7 +3,7 @@ import "./favorites.scss";
 import { PageTitle } from "@/components/common/pageTitle/pageTitle";
 import Card from "../home/card";
 import { FavoriteData } from "@/types/favorites";
-import { CardData } from "@/types/card";
+import { CardData } from "@/types/cart";
 
 export function FavoritesPage(props: { favorites: FavoriteData[] }) {
   const { favorites } = props;
