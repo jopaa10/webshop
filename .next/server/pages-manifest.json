@@ -2,8 +2,7 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/favorites": "pages/favorites.js",
-  "/shop": "pages/shop.js",
+  "/": "pages/index.js",
   "/[cardId]": "pages/[cardId].js",
-  "/": "pages/index.js"
+  "/shop": "pages/shop.js"
 }
