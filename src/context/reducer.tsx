@@ -12,7 +12,6 @@ interface State {
   favorites: CartData[];
   cart: CartData[];
   totalQuantity: number;
-  startAnimation: boolean;
 }
 
 export const reducer = (state: State, action: Action) => {
@@ -70,8 +69,6 @@ export const reducer = (state: State, action: Action) => {
   if (action.type === Actions.ADD_TO_CART) {
     state.cart = JSON.parse(localStorage.getItem(LSKeyType.CART_ITEMS) || "[]");
 
-    let isAnimationStarted = false;
-
     const isItemInCart = state.cart.find(
       (item: CartData) => item.id === Number(action.payload.id)
     );
@@ -85,7 +82,6 @@ export const reducer = (state: State, action: Action) => {
           : item
       );
     } else {
-      isAnimationStarted = true;
       const cartData = getCardById(Number(action.payload.id));
       updatedCart = [...state.cart, cartData] as CartData[];
     }
@@ -95,7 +91,6 @@ export const reducer = (state: State, action: Action) => {
     return {
       ...state,
       cart: updatedCart,
-      startAnimation: isAnimationStarted,
     };
   }
 
@@ -124,11 +119,37 @@ export const reducer = (state: State, action: Action) => {
     };
   }
 
-  // if(action.type === Actions.INCREASE_QUANTITY) {
-  //   const storedCartItems = JSON.parse(localStorage.getItem(LSKeyType.CART_ITEMS) || '[]')
+  if (action.type === Actions.DECREASE_QUANTITY) {
+    const storedCartItems: CartData[] = JSON.parse(
+      localStorage.getItem(LSKeyType.CART_ITEMS) || "[]"
+    );
 
-  //   const is
-  // }
+    const cartItems = new Set<CartData>(storedCartItems);
+    const itemFound = Array.from(cartItems).find(
+      (item: CartData) => item.id === Number(action.payload.id)
+    );
+
+    let updatedCart: CartData[];
+
+    if (itemFound && itemFound?.quantity > 1) {
+      updatedCart = Array.from(cartItems).map((item: CartData) =>
+        item.id === Number(action.payload.id)
+          ? { ...item, quantity: item.quantity - 1 }
+          : item
+      );
+    } else {
+      updatedCart = Array.from(cartItems).filter(
+        (item: CartData) => item.id !== Number(action.payload.id)
+      );
+    }
+
+    AddToLocalStorage({ key: LSKeyType.CART_ITEMS, items: updatedCart });
+
+    return {
+      ...state,
+      cart: updatedCart,
+    };
+  }
 
   throw new Error(`no matching action types: ${action.type}`);
 };

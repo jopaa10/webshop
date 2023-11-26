@@ -18,8 +18,8 @@ interface InitialState {
   cart: CartData[];
   addToShoppingCart(id: string): void;
   totalQuantity: number;
-  startAnimation: boolean;
   removeItemFromCart(id: string): void;
+  decreaseItemQuantity(id: string): void;
 }
 
 interface Props {
@@ -34,8 +34,8 @@ const initialState: InitialState = {
   cart: [],
   addToShoppingCart() {},
   totalQuantity: 0,
-  startAnimation: false,
   removeItemFromCart() {},
+  decreaseItemQuantity() {},
 };
 
 const WebshopContext = createContext<InitialState>(initialState);
@@ -59,6 +59,10 @@ export const WebShopProvider: React.FC<Props> = ({ children }) => {
 
   const removeItemFromCart = (id: string) => {
     dispatch({ type: Actions.REMOVE_FROM_CART, payload: { id } });
+  };
+
+  const decreaseItemQuantity = (id: string) => {
+    dispatch({ type: Actions.DECREASE_QUANTITY, payload: { id } });
   };
 
   useEffect(() => {
@@ -90,6 +94,7 @@ export const WebShopProvider: React.FC<Props> = ({ children }) => {
         totalQuantity:
           newCartData.length > 0 ? newCartData.length : state.cart.length,
         removeItemFromCart,
+        decreaseItemQuantity,
       }}
     >
       {children}

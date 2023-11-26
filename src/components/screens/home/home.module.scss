@@ -1,6 +1,8 @@
 @import "@/styles/scss/_variables.scss";
 
 .home {
+  width: 100%;
+
   .cardContainer {
     display: flex;
     justify-content: space-evenly;

@@ -24,7 +24,7 @@ function CardDetail(props: { card?: CartData }) {
         <Image src={image} alt={title} width={300} height={250} />
       </div>
       <div className="card-info-container__detail">
-        <p className="card-title">{title}</p>
+        <h3 className="card-title">{title}</h3>
         <p className="card-description">{detail}</p>
         <p className="card-price">{price} $</p>
 

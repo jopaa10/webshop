@@ -1,134 +1,249 @@
 @import "@/styles/scss/mixins";
 @import "@/styles/scss/variables";
 
-.header {
+.navigation {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: $background;
+
   min-height: 5rem;
+  height: 7rem;
+  padding: 0 2rem;
+
+  background-color: $background;
   box-shadow: 3px 3px 10px $card-box-shadow-color;
 
   @include respond(sm-phone) {
     justify-content: space-around;
   }
 
-  .navbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
+  &__checkbox {
+    display: none;
+  }
 
-    width: 100%;
-    margin: 3rem 2rem;
+  &__button {
+    opacity: 0;
+    width: 0;
 
     @include respond(sm-phone) {
-      margin: 1rem 2rem;
-      align-items: unset;
+      display: flex;
+
+      opacity: 1;
+      width: 100%;
+
+      width: 4rem;
+      height: 4rem;
+      position: absolute;
+      transform: translate(-50%, -50%);
+      top: 4%;
+      right: 1rem;
+
+      border-radius: 50%;
+      z-index: 2000;
+
+      background-color: transparent;
+
+      text-align: center;
+      cursor: pointer;
+    }
+  }
+
+  &__background {
+    @include respond(sm-phone) {
+      position: relative;
+
+      &::before {
+        content: "";
+        background-image: radial-gradient(rgb(65, 65, 65), rgb(24, 24, 24));
+        position: absolute;
+        z-index: 1000;
+        right: 3rem;
+        top: 2rem;
+        transform: translate(-50%, -50%);
+
+        width: 3rem;
+        height: 3rem;
+
+        border-radius: 50%;
+        transition: all 0.8s ease;
+      }
+    }
+  }
+
+  .logo {
+    width: 100%;
+    color: $card-text;
+    display: flex;
+    align-items: center;
+    margin: 0 1rem;
+  }
+
+  &__nav {
+    display: flex;
+    justify-content: center;
+
+    @include respond(sm-phone) {
+      height: 100vh;
+      position: fixed;
+      top: 0;
+      //left: 0;
+      z-index: 1500;
+
+      opacity: 0;
+      width: 0;
+      transform: translateY(-100%);
+      transition: all 0.8s ease;
+    }
+  }
+
+  &__list {
+    display: flex;
+    justify-content: flex-start;
+    list-style: none;
+    gap: 3rem;
+
+    align-items: center;
+
+    min-width: 20rem;
+    width: 100%;
+
+    @include respond(sm-phone) {
+      flex-direction: column;
+
+      font-size: 3.5rem;
+
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
     }
 
-    .logo {
-      width: 100%;
+    li {
       color: $card-text;
+      cursor: pointer;
+      transition: all 0.4s ease-in-out;
+
       display: flex;
+      justify-content: center;
       align-items: center;
-      margin: 0 1rem;
-    }
 
-    &__container {
-      display: flex;
-      justify-content: space-around;
-      width: 100%;
-
-      @include respond(sm-phone) {
-        display: block;
-        margin: 1rem 0;
+      &:active,
+      &:hover {
+        color: #fa8ecd;
+        transform: scale(1.2);
       }
 
-      ul {
-        display: flex;
-        justify-content: flex-end;
-        list-style: none;
-        min-width: 20rem;
-        align-items: center;
-        width: 100%;
-        gap: 3rem;
-
-        @include respond(sm-phone) {
-          flex-direction: column;
-          align-items: flex-start;
-          margin: 1rem;
-        }
-
-        @include respond(sm-phone) {
-          display: none;
-        }
-
-        li {
-          color: $card-text;
-          cursor: pointer;
-          transition: all 0.4s ease-in-out;
-
-          display: flex;
-          justify-content: center;
-          align-items: center;
-
-          &:active,
-          &:hover {
-            color: #fa8ecd;
-            transform: scale(1.2);
-          }
-
-          .shopping-cart-icon-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 0.4rem;
-
-            p {
-              transform: translate(-50%, -50%);
-            }
-
-            &.animation {
-              animation: bounce 1s ease-in-out;
-            }
-
-            @keyframes bounce {
-              0%,
-              50%,
-              100% {
-                transform: translateY(0);
-              }
-              40% {
-                transform: translateY(-10px);
-              }
-              60% {
-                transform: translateY(-10px);
-              }
-            }
-          }
-        }
-
-        .active {
-          color: #fa8ecd;
-        }
-      }
-    }
-
-    .menu-icon {
-      display: none;
-      font-size: 3rem;
-      width: 3rem;
-      height: 3rem;
-
-      background: transparent;
-      color: $card-text;
-      border: none;
-
-      @include respond(sm-phone) {
+      .shopping-cart-icon-container {
         display: flex;
         justify-content: center;
         align-items: center;
+        gap: 0.4rem;
+
+        @include respond(sm-phone) {
+          gap: 0.8rem;
+        }
+
+        p {
+          transform: translate(-50%, -50%);
+        }
+
+        &.animation {
+          animation: bounce 1s ease-in-out;
+        }
+
+        @keyframes bounce {
+          0%,
+          50%,
+          100% {
+            transform: translateY(0);
+          }
+          40% {
+            transform: translateY(-10px);
+          }
+          60% {
+            transform: translateY(-10px);
+          }
+        }
       }
     }
+
+    .active {
+      color: #fa8ecd;
+    }
+  }
+
+  &__checkbox:checked ~ &__background::before {
+    @include respond(sm-phone) {
+      transform: scale(200);
+    }
+  }
+
+  &__checkbox:not(:checked) ~ &__background::before {
+    transform: scale(0);
+    position: fixed;
+  }
+
+  &__checkbox:checked ~ &__nav {
+    width: 100%;
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  //icon
+  &__icon {
+    opacity: 0;
+    width: 0;
+
+    @include respond(sm-phone) {
+      opacity: 1;
+      position: relative;
+      margin: auto;
+      &,
+      &::before,
+      &::after {
+        width: 3rem;
+        height: 2px;
+        background-color: $card-text;
+        display: inline-block;
+      }
+
+      &::before,
+      &::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        transition: all 0.2s;
+      }
+
+      &::before {
+        top: -1rem;
+      }
+
+      &::after {
+        top: 1rem;
+      }
+    }
+  }
+
+  &__button:hover &__icon::before {
+    top: -1rem;
+  }
+
+  &__button:hover &__icon::after {
+    top: 1rem;
+  }
+
+  &__checkbox:checked + &__button &__icon {
+    background-color: transparent;
+  }
+
+  &__checkbox:checked + &__button &__icon::before {
+    top: 0;
+    transform: rotate(135deg);
+  }
+
+  &__checkbox:checked + &__button &__icon::after {
+    top: 0;
+    transform: rotate(-135deg);
   }
 }

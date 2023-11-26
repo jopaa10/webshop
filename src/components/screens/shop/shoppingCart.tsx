@@ -1,19 +1,37 @@
 import { AddButton } from "@/components/common/addToCardButton/addButton";
 import { useGlobalContext } from "@/context/context";
 import { CartData } from "@/types/cart";
+import { CheckoutItems } from "@/types/checkoutItems";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import "./shoppingCart.scss";
 
 function ShoppingCartPage() {
-  const { cart, removeItemFromCart, addToShoppingCart } = useGlobalContext();
+  const { cart, removeItemFromCart, addToShoppingCart, decreaseItemQuantity } =
+    useGlobalContext();
   const router = useRouter();
-
-  console.log(cart);
 
   const handleNavigateToCardDetails = (id: string) => {
     router.push(`/${id}`);
   };
+
+  const checkoutItems: CheckoutItems[] = [
+    {
+      id: 1,
+      text: "Subtotal",
+      icon: "$",
+    },
+    {
+      id: 2,
+      text: "Tax",
+      icon: "%",
+    },
+    {
+      id: 3,
+      text: "total",
+      icon: "$",
+    },
+  ];
 
   return (
     <section className="shopping-cart">
@@ -40,13 +58,19 @@ function ShoppingCartPage() {
                   </button>
                   <p className="text">{item.detail}</p>
                   <p className="price">{item.price} $</p>
-                </div>
-                <div className="details__button-container">
-                  <button>-</button>
-                  <p className="quantity">{item.quantity}</p>
-                  <button onClick={() => addToShoppingCart(item.id.toString())}>
-                    +
-                  </button>
+                  <div className="details__button-container">
+                    <button
+                      onClick={() => decreaseItemQuantity(item.id.toString())}
+                    >
+                      -
+                    </button>
+                    <p className="quantity">{item.quantity}</p>
+                    <button
+                      onClick={() => addToShoppingCart(item.id.toString())}
+                    >
+                      +
+                    </button>
+                  </div>
                 </div>
               </div>
               <div className="delete-container">
@@ -67,9 +91,12 @@ function ShoppingCartPage() {
       <div className="checkout-container">
         <p>Checkout </p>
         <div className="checkout-container__total">
-          <p>Subtotal: $</p>
-          <p>Tax: 14.00% $</p>
-          <p>Total: $</p>
+          {checkoutItems.map((item: CheckoutItems) => (
+            <div key={item.id} className="checkout-items">
+              <p>{item.text}</p>
+              <span>{item.icon}</span>
+            </div>
+          ))}
         </div>
         <button className="checkout-container__proceed-button">
           Proceed to checkout

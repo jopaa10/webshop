@@ -5,6 +5,7 @@ export interface CartData {
   quantity: number;
   image: string;
   detail: string;
+  brand: string;
 }
 
 export interface Card {

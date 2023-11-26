@@ -2,10 +2,9 @@ import "./favorites.scss";
 
 import { PageTitle } from "@/components/common/pageTitle/pageTitle";
 import Card from "../home/card";
-import { FavoriteData } from "@/types/favorites";
-import { CardData } from "@/types/cart";
+import { CartData } from "@/types/cart";
 
-export function FavoritesPage(props: { favorites: FavoriteData[] }) {
+export function FavoritesPage(props: { favorites: CartData[] }) {
   const { favorites } = props;
 
   return (
@@ -14,7 +13,7 @@ export function FavoritesPage(props: { favorites: FavoriteData[] }) {
 
       {favorites.length > 0 ? (
         <div className="favorites-container__cards">
-          {favorites?.map((item: CardData) => (
+          {favorites?.map((item: CartData) => (
             <Card key={item.id} card={item} />
           ))}
         </div>

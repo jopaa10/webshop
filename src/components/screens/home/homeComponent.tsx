@@ -3,7 +3,7 @@ import styles from "./home.module.scss";
 import { MOCK_DATA } from "@/utils/mockData";
 import Card from "./card";
 import { PageTitle } from "../../common/pageTitle/pageTitle";
-import { CardData } from "@/types/cart";
+import { CartData } from "@/types/cart";
 
 function HomeComponent() {
   return (
@@ -11,8 +11,7 @@ function HomeComponent() {
       <PageTitle text={"Home"} />
 
       <div className={styles.cardContainer}>
-        {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-        {MOCK_DATA.map((item: CardData) => {
+        {MOCK_DATA.map((item: CartData) => {
           return <Card key={item.id} card={item} />;
         })}
       </div>
