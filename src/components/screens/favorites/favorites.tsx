@@ -1,8 +1,8 @@
 import "./favorites.scss";
 
 import { PageTitle } from "@/components/common/pageTitle/pageTitle";
-import Card from "../home/card";
 import { CartData } from "@/types/cart";
+import Card from "../home/card/card";
 
 export function FavoritesPage(props: { favorites: CartData[] }) {
   const { favorites } = props;

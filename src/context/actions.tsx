@@ -8,4 +8,5 @@ export enum Actions {
   CLEAR_CART = "CLEAR_CART",
   LOADING = "LOADING",
   DISPLAY_ITEMS = "DISPLAY_ITEMS",
+  FILTER_DATA = "FILTER_DATA",
 }

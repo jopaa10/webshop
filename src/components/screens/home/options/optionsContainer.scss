@@ -1,0 +1,93 @@
+@import "@/styles/scss/mixins";
+@import "@/styles/scss/_variables.scss";
+
+.filter-container {
+  display: flex;
+  flex-direction: column;
+  min-width: 20rem;
+  align-items: center;
+
+  color: $card-text;
+
+  @include respond(sm-phone) {
+    margin-bottom: 5rem;
+  }
+
+  p {
+    padding: 1rem;
+
+    align-self: flex-start;
+    text-transform: uppercase;
+  }
+
+  &__checkbox {
+    display: none;
+  }
+
+  &__label {
+    width: 100%;
+    min-height: 3rem;
+    padding: 1rem;
+
+    cursor: pointer;
+
+    display: flex;
+    justify-content: space-between;
+
+    span {
+      text-transform: uppercase;
+    }
+  }
+
+  &__features {
+    display: flex;
+    width: 100%;
+    height: auto;
+
+    border-bottom: 1px solid grey;
+  }
+
+  .not-open {
+    opacity: 0;
+    width: 0;
+    height: 0.1rem;
+    visibility: hidden;
+  }
+
+  &__dropdown-menu {
+    list-style: none;
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+
+    width: 100%;
+
+    li {
+      display: flex;
+      align-items: center;
+
+      width: 100%;
+      gap: 1rem;
+      padding: 1rem 1rem;
+
+      label {
+        width: 100%;
+
+        display: flex;
+
+        cursor: pointer;
+      }
+    }
+  }
+
+  &__checkbox:checked ~ .open {
+    opacity: 1;
+    width: 100%;
+    height: auto;
+    visibility: visible;
+  }
+
+  &__checkbox:checked ~ &__label > .arrow {
+    transform: rotate(180deg);
+  }
+}

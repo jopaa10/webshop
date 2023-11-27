@@ -20,6 +20,9 @@ interface InitialState {
   totalQuantity: number;
   removeItemFromCart(id: string): void;
   decreaseItemQuantity(id: string): void;
+  filterData(property: keyof CartData, value: string): void;
+  filteredData: CartData[];
+  selectedCheckboxes: string[];
 }
 
 interface Props {
@@ -36,6 +39,9 @@ const initialState: InitialState = {
   totalQuantity: 0,
   removeItemFromCart() {},
   decreaseItemQuantity() {},
+  filterData() {},
+  filteredData: [],
+  selectedCheckboxes: [],
 };
 
 const WebshopContext = createContext<InitialState>(initialState);
@@ -63,6 +69,10 @@ export const WebShopProvider: React.FC<Props> = ({ children }) => {
 
   const decreaseItemQuantity = (id: string) => {
     dispatch({ type: Actions.DECREASE_QUANTITY, payload: { id } });
+  };
+
+  const filterData = (property: keyof CartData, value: string) => {
+    dispatch({ type: Actions.FILTER_DATA, payload: { property, value } });
   };
 
   useEffect(() => {
@@ -95,6 +105,8 @@ export const WebShopProvider: React.FC<Props> = ({ children }) => {
           newCartData.length > 0 ? newCartData.length : state.cart.length,
         removeItemFromCart,
         decreaseItemQuantity,
+        filterData,
+        filteredData: state.filteredData,
       }}
     >
       {children}

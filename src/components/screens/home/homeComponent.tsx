@@ -1,21 +1,33 @@
-import styles from "./home.module.scss";
-
+import "./home.scss";
 import { MOCK_DATA } from "@/utils/mockData";
-import Card from "./card";
 import { PageTitle } from "../../common/pageTitle/pageTitle";
 import { CartData } from "@/types/cart";
+import OptionsContainer from "./options/optionsContainer";
+import Card from "./card/card";
+import { useGlobalContext } from "@/context/context";
+import { useEffect, useState } from "react";
 
 function HomeComponent() {
+  const { filteredData, selectedCheckboxes } = useGlobalContext();
+  const [mockData, setMockData] = useState<CartData[]>(MOCK_DATA);
+
+  useEffect(() => {
+    setMockData(selectedCheckboxes.length > 0 ? filteredData : MOCK_DATA);
+  }, [selectedCheckboxes]);
+
   return (
-    <div className={styles.home}>
+    <section className={"home-section"}>
       <PageTitle text={"Home"} />
 
-      <div className={styles.cardContainer}>
-        {MOCK_DATA.map((item: CartData) => {
-          return <Card key={item.id} card={item} />;
-        })}
+      <div className="home-section__card-container">
+        <OptionsContainer />
+        <div className={"cards"}>
+          {mockData.map((item: CartData) => {
+            return <Card key={item.id} card={item} />;
+          })}
+        </div>
       </div>
-    </div>
+    </section>
   );
 }
 

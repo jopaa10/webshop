@@ -6,6 +6,7 @@ export interface CartData {
   image: string;
   detail: string;
   brand: string;
+  ram: string;
 }
 
 export interface Card {
