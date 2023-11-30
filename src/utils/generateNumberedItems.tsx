@@ -2,19 +2,6 @@
 import { CartData } from "@/types/cart";
 import { MOCK_DATA } from "./mockData";
 
-// interface OptionData {
-//   id: number;
-//   name: string;
-//   property?: keyof CartData;
-// }
-
-// interface BrandData {
-//     id: number;
-//     name: string;
-//     brand: string;
-//     count?: number;
-//   }
-
 export function GenerateNumberedItems(property: keyof CartData) {
   const instances = MOCK_DATA.reduce(function (
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -32,18 +19,6 @@ export function GenerateNumberedItems(property: keyof CartData) {
   }, {});
 
   return instances;
-}
-
-export function mergeCountData(
-  data: { id: number; name: string; [key: string]: any }[],
-  counts: { [key: string]: number },
-  property: string
-): { id: number; name: string; count: number }[] {
-  return data.map((item) => {
-    const countData = counts[item[property].toLowerCase() || item.name];
-    const count = countData !== undefined ? countData : 0;
-    return { ...item, count };
-  });
 }
 
 export function mergePriceCountData(

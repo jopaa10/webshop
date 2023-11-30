@@ -1,119 +1,64 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {
-  GenerateNumberedItems,
-  mergeCountData,
-  mergePriceCountData,
-} from "@/utils/generateNumberedItems";
+
+import { useGlobalContext } from "@/context/context";
+import { CartData } from "@/types/cart";
+import { filteredDataOptions } from "@/utils/mockData";
 import { useState } from "react";
 import { OptionsCard } from "./optionsCard";
 import "./optionsContainer.scss";
 
-interface BrandData {
-  id: number;
-  name: string;
-  brand: string;
-  count?: number;
-}
-
 function OptionsContainer() {
-  const BRANDS: BrandData[] = [
-    {
-      id: 1,
-      name: "Samsung",
-      brand: "samsung",
-    },
-    {
-      id: 2,
-      name: "iPhone",
-      brand: "iphone",
-    },
-    {
-      id: 3,
-      name: "Xiaomi",
-      brand: "xiaomi",
-    },
-  ];
-
-  const PRICE = [
-    {
-      id: 1,
-      name: "100 - 299 $",
-      minPrice: 100,
-      maxPrice: 299.99,
-    },
-    {
-      id: 2,
-      name: "300 - 499 $",
-      minPrice: 300,
-      maxPrice: 499.99,
-    },
-    {
-      id: 3,
-      name: "500 - 799 $",
-      minPrice: 500,
-      maxPrice: 799.99,
-    },
-    {
-      id: 4,
-      name: "800+ $",
-      minPrice: 800,
-      maxPrice: Infinity,
-    },
-  ];
-
-  const RAM = [
-    {
-      id: 1,
-      name: "4 GB",
-    },
-    {
-      id: 2,
-      name: "6 GB",
-    },
-    {
-      id: 3,
-      name: "8 GB",
-    },
-    {
-      id: 4,
-      name: "12 GB",
-    },
-  ];
-
   const [openDropdown, setOpenDropdown] = useState([]);
-  //const [numberedItems, setNumberedItems] = useState<any[]>([null]);
+  const { filteredData, selectedCheckboxes } = useGlobalContext();
 
-  let mergedBrands: any[] = [];
-  let mergedRam: any[] = [];
-  let mergedPrice: any[] = [];
+  const options = filteredDataOptions();
+  console.log(options, filteredData);
 
-  const brand = GenerateNumberedItems("brand");
-  const ram = GenerateNumberedItems("ram");
-  const price = GenerateNumberedItems("price");
+  // Function to generate the new object based on the selected filter
+  function generateFilterOptions(filter: string, filterType: "brand" | "ram") {
+    if (filterType === "brand") {
+      const availableRams: string[] = [];
+      return {
+        brand: [{ name: filter }],
+        ram: availableRams.map((ram) => ({ name: ram })),
+      };
+    } else if (filterType === "ram") {
+      const availableBrands: string[] = [];
+      return {
+        ram: [{ name: filter }],
+        brands: availableBrands.map((brand) => ({ name: brand })),
+      };
+    }
+    return {};
+  }
 
-  mergedBrands = mergeCountData(BRANDS, brand, "name");
-  mergedRam = mergeCountData(RAM, ram, "name");
+  // Example usage:
+  const selectedFilter: string = "samsung"; // or '6 gb' based on user selection
+  const filterType: "brand" | "ram" = selectedFilter.includes("gb")
+    ? "ram"
+    : "brand";
 
-  mergedPrice = mergePriceCountData(PRICE, price);
+  const newObject = generateFilterOptions(selectedFilter, filterType);
+  console.log(newObject);
 
   return (
     <div className="filter-container">
       <p>Filter by</p>
       <OptionsCard
         title={"Brand"}
-        items={mergedBrands}
+        items={selectedFilter ? newObject?.brand : options?.brands}
         openDropdown={openDropdown}
         setOpenDropdown={setOpenDropdown}
       />
-      <OptionsCard
+      {/* <OptionsCard
         title={"Price"}
         items={mergedPrice}
         openDropdown={openDropdown}
         setOpenDropdown={setOpenDropdown}
-      />
+      /> */}
       <OptionsCard
         title={"RAM"}
-        items={mergedRam}
+        items={newObject?.ram}
         openDropdown={openDropdown}
         setOpenDropdown={setOpenDropdown}
       />

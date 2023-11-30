@@ -11,7 +11,7 @@ export function OptionsCard({
   setOpenDropdown,
 }: any) {
   const isOpen = openDropdown.includes(title);
-  const { filterData } = useGlobalContext();
+  const { filterData, filteredData } = useGlobalContext();
 
   const handleToggle = () => {
     if (isOpen) {
@@ -23,11 +23,16 @@ export function OptionsCard({
     }
   };
 
+  let isActive: boolean;
   const handleOnChange = (e: any) => {
     const { name, value } = e.target;
 
     filterData(name.toLowerCase(), value.toLowerCase());
+
+    isActive = filteredData.some((dataItem) => dataItem.ram === value);
   };
+
+  console.log(items);
 
   return (
     <Fragment>
@@ -52,8 +57,12 @@ export function OptionsCard({
           }`}
           role="menu"
         >
-          {items.map((item: any) => (
-            <li key={item.id}>
+          {items.map((item: any, index: number) => (
+            <li
+              key={index}
+              id="filter"
+              className={isActive ? "filter-active" : ""}
+            >
               <input
                 type="checkbox"
                 id={item.name}

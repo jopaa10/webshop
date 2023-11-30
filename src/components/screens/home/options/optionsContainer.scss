@@ -78,6 +78,10 @@
         cursor: pointer;
       }
     }
+
+    .filter-active {
+      color: red;
+    }
   }
 
   &__checkbox:checked ~ .open {

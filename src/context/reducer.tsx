@@ -174,6 +174,8 @@ export const reducer = (state: State, action: Action) => {
           [item.brand, item.ram].includes(checkbox)
         )
       );
+
+      console.log(updatedCheckboxes);
     }
 
     return {
