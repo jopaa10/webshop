@@ -1,17 +1,23 @@
 import { CartData } from "@/types/cart";
 import { AddToLocalStorage, LSKeyType } from "@/utils/addToLS";
-import { getCardById } from "@/utils/mockData";
+import { getCardById, MOCK_DATA } from "@/utils/mockData";
 import { Actions } from "./actions";
 
 interface Action {
   type: Actions;
-  payload: { id: string };
+  payload: {
+    id?: string;
+    property?: keyof CartData;
+    value?: string;
+  };
 }
 
 interface State {
   favorites: CartData[];
   cart: CartData[];
   totalQuantity: number;
+  filteredData: CartData[];
+  selectedCheckboxes: string[];
 }
 
 export const reducer = (state: State, action: Action) => {
@@ -151,5 +157,46 @@ export const reducer = (state: State, action: Action) => {
     };
   }
 
+  if (action.type === Actions.FILTER_DATA) {
+    const { value } = action.payload;
+    let newData: CartData[] = [];
+    const updatedCheckboxes = [...state.selectedCheckboxes];
+
+    if (value !== undefined) {
+      if (updatedCheckboxes.includes(value)) {
+        const index = updatedCheckboxes.indexOf(value);
+        updatedCheckboxes.splice(index, 1);
+      } else {
+        updatedCheckboxes.push(value);
+      }
+      newData = MOCK_DATA.filter((item) =>
+        updatedCheckboxes.some((checkbox) =>
+          [item.brand, item.ram].includes(checkbox)
+        )
+      );
+    }
+
+    return {
+      ...state,
+      selectedCheckboxes: updatedCheckboxes,
+      filteredData: newData,
+    };
+  }
+
+  if (action.type === Actions.REMOVE_FILTER) {
+    const { value } = action.payload;
+    let updatedCheckboxes: string[] = [];
+
+    if (state.selectedCheckboxes) {
+      updatedCheckboxes = state.selectedCheckboxes.filter(
+        (item) => item !== value
+      );
+    }
+
+    return {
+      ...state,
+      selectedCheckboxes: updatedCheckboxes,
+    };
+  }
   throw new Error(`no matching action types: ${action.type}`);
 };

@@ -10,7 +10,7 @@
   height: 7rem;
   padding: 0 2rem;
 
-  background-color: $background;
+  background-color: #000;
   box-shadow: 3px 3px 10px $card-box-shadow-color;
 
   @include respond(sm-phone) {
@@ -50,11 +50,16 @@
 
   &__background {
     @include respond(sm-phone) {
-      position: relative;
+      position: fixed;
+      z-index: 999;
 
       &::before {
         content: "";
-        background-image: radial-gradient(rgb(65, 65, 65), rgb(24, 24, 24));
+        background-image: linear-gradient(
+          0deg,
+          rgba(238, 135, 249, 1) 20%,
+          rgba(0, 0, 0, 1) 50%
+        );
         position: absolute;
         z-index: 1000;
         right: 3rem;
@@ -127,24 +132,47 @@
       justify-content: center;
       align-items: center;
 
-      &:active,
-      &:hover {
+      &:is(:active, :hover) {
         color: #fa8ecd;
         transform: scale(1.2);
+      }
+
+      a {
+        margin-inline: 5px;
       }
 
       .shopping-cart-icon-container {
         display: flex;
         justify-content: center;
         align-items: center;
-        gap: 0.4rem;
+        gap: 0.6rem;
+
+        font-size: 2rem;
 
         @include respond(sm-phone) {
           gap: 0.8rem;
+          font-size: 4rem;
         }
 
         p {
           transform: translate(-50%, -50%);
+
+          background: purple;
+          color: $card-text;
+          width: 2.5rem;
+          height: 2.5rem;
+          border-radius: 1.25rem;
+          text-align: center;
+          justify-content: center;
+          display: flex;
+          align-items: center;
+
+          @include respond(sm-phone) {
+            font-size: 3rem;
+            width: 3.5rem;
+            height: 3.5rem;
+            border-radius: 2rem;
+          }
         }
 
         &.animation {

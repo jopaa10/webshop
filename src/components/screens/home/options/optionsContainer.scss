@@ -1,0 +1,177 @@
+@import "@/styles/scss/mixins";
+@import "@/styles/scss/_variables.scss";
+
+.filter-container {
+  display: flex;
+  flex-direction: column;
+  max-width: 20rem;
+  width: 100%;
+
+  align-items: center;
+
+  color: $card-text;
+
+  .filters {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+
+    max-width: 25rem;
+
+    button {
+      background: transparent;
+      border: none;
+      color: $card-text;
+
+      display: flex;
+      align-items: center;
+
+      cursor: pointer;
+
+      &:is(:active, :hover) {
+        color: $card-active-color;
+      }
+    }
+  }
+
+  @include respond(sm-phone) {
+    margin-bottom: 5rem;
+    min-width: 20rem;
+  }
+
+  @include respond(sm-desktop) {
+    margin-bottom: 5rem;
+    min-width: 22rem;
+  }
+
+  p {
+    padding: 1rem;
+
+    align-self: flex-start;
+    text-transform: uppercase;
+  }
+
+  &__checkbox {
+    display: none;
+  }
+
+  &__label {
+    width: 100%;
+    min-height: 3rem;
+    padding: 1rem;
+
+    cursor: pointer;
+
+    display: flex;
+    justify-content: space-between;
+
+    span {
+      text-transform: uppercase;
+    }
+  }
+
+  &__features {
+    display: flex;
+    width: 100%;
+    height: auto;
+
+    border-bottom: 1px solid grey;
+  }
+
+  .not-open {
+    opacity: 0;
+    width: 0;
+    height: 0.1rem;
+    visibility: hidden;
+  }
+
+  &__dropdown-menu {
+    list-style: none;
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+
+    width: 100%;
+
+    li {
+      display: flex;
+      align-items: center;
+      position: relative;
+
+      width: 100%;
+      padding: 1rem 1rem;
+
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+
+      input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+      }
+
+      .checkmark {
+        display: inline-block;
+        cursor: pointer;
+        position: relative;
+        padding-left: 25px;
+        margin-right: 15px;
+
+        width: 100%;
+
+        &:before {
+          content: "";
+          display: inline-block;
+
+          width: 16px;
+          height: 16px;
+
+          margin-right: 10px;
+          position: absolute;
+          left: 0;
+          bottom: 1px;
+          border-radius: 3px;
+          background-color: #eee;
+        }
+      }
+
+      input:checked ~ .checkmark::before {
+        background-color: #dc65ee;
+      }
+
+      input:checked ~ .checkmark:before {
+        content: "\2713";
+        text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+        color: #fff;
+        text-align: center;
+        line-height: 12px;
+        padding: 0.2rem 0;
+      }
+
+      &:hover input ~ .checkmark:before {
+        background-color: #ccc;
+        cursor: pointer;
+      }
+
+      &:hover input:checked ~ .checkmark:before {
+        background-color: #dc65ee;
+      }
+    }
+  }
+
+  &__checkbox:checked ~ .open {
+    opacity: 1;
+    width: 100%;
+    height: auto;
+    visibility: visible;
+  }
+
+  &__checkbox:checked ~ &__label > .arrow {
+    transform: rotate(180deg);
+  }
+}

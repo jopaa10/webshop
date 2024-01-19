@@ -1,0 +1,30 @@
+.pagination-container {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  background: black;
+  min-height: 5rem;
+  width: auto;
+  padding-inline: 2rem;
+  align-items: center;
+  align-self: flex-end;
+  border-radius: 10px;
+
+  button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+    background: none;
+    border: none;
+
+    color: white;
+    font-size: 2rem;
+  }
+
+  :is(.active, :hover) {
+    color: #fa8ecd;
+    font-weight: 600;
+  }
+}

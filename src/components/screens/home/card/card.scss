@@ -1,0 +1,82 @@
+@import "@/styles/scss/_variables.scss";
+
+.card {
+  border-radius: 1rem;
+  border: 1px solid #f5f5f5;
+  box-shadow: $box-shadow;
+
+  padding: 2rem 0;
+  margin: 2rem 1rem;
+
+  background: linear-gradient(to bottom, #121212, #333);
+  color: $card-text;
+
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  justify-content: flex-start;
+  position: relative;
+
+  min-width: 23rem;
+  min-height: 35rem;
+  align-items: center;
+  width: fit-content;
+
+  transition: all 0.4s ease-in-out;
+
+  &:hover {
+    transform: scale(1.05);
+    background: inherit;
+  }
+
+  &__favorite-icon {
+    color: $card-icon-bg;
+
+    align-self: flex-end;
+    margin-inline-end: 2rem;
+
+    font-size: 2rem;
+
+    transition: all 0.4s ease-in-out;
+
+    &:hover {
+      transform: scale(1.2);
+    }
+  }
+
+  &__title,
+  &__price {
+    font-weight: bold;
+    letter-spacing: 0.1rem;
+  }
+
+  &__title,
+  &__favorite-icon,
+  &__shopping-icon {
+    cursor: pointer;
+    background: none;
+    border: none;
+  }
+
+  &__detail {
+    color: $card-text;
+  }
+
+  &__shopping-icon {
+    border: 1px solid $card-box-shadow-color;
+    border-radius: 1rem;
+    box-shadow: 0 0 5px;
+
+    background: transparent;
+    color: $card-text;
+
+    width: auto;
+    min-width: 7rem;
+    height: 3rem;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+  }
+}

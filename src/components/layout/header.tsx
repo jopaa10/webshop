@@ -26,7 +26,7 @@ function Header() {
     }
   }, [totalQuantity]);
 
-  const pages: Pages[] = [
+  const PAGES: Pages[] = [
     {
       pathname: "/",
       name: "Home",
@@ -65,13 +65,17 @@ function Header() {
       <div className={`navigation__background`}>&nbsp;</div>
       <nav className={`navigation__nav`} id="nav">
         <ul className="navigation__list">
-          {pages.map((item) => {
+          {PAGES.map((item) => {
             return (
               <li
                 key={item.pathname}
                 className={router.pathname === item.pathname ? "active" : ""}
               >
-                <Link href={item.pathname} onClick={handleCloseNavMenu}>
+                <Link
+                  href={item.pathname}
+                  onClick={handleCloseNavMenu}
+                  key={router.asPath}
+                >
                   {item.name}
                 </Link>
                 {item.pathname.includes("shop") && (

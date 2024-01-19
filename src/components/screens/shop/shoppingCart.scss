@@ -44,6 +44,8 @@
         &__text {
           display: flex;
           flex-direction: column;
+          justify-content: space-between;
+          align-items: flex-start;
           gap: 1rem;
 
           .navigation-button {
@@ -74,8 +76,8 @@
 
           width: 5.5rem;
           height: 2.5rem;
-          border: 1px solid grey;
-          box-shadow: $box-shadow;
+          border: 1px solid $card-box-shadow-color;
+          box-shadow: 0px 0px 5px $card-box-shadow-color;
           border-radius: 1rem;
 
           .quantity {
@@ -110,7 +112,7 @@
           border: 1px solid $card-box-shadow-color;
           border-radius: 1rem;
           color: $card-text;
-          box-shadow: $box-shadow;
+          box-shadow: 0px 0px 5px $card-box-shadow-color;
 
           font-size: 1.2rem;
 
@@ -126,7 +128,7 @@
           cursor: pointer;
 
           &:hover {
-            transform: scale(1.2);
+            transform: scale(1.05);
           }
         }
       }
