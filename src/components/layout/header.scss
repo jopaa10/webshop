@@ -151,6 +151,7 @@
 
         @include respond(sm-phone) {
           gap: 0.8rem;
+          font-size: 4rem;
         }
 
         p {
@@ -165,6 +166,13 @@
           justify-content: center;
           display: flex;
           align-items: center;
+
+          @include respond(sm-phone) {
+            font-size: 3rem;
+            width: 3.5rem;
+            height: 3.5rem;
+            border-radius: 2rem;
+          }
         }
 
         &.animation {
