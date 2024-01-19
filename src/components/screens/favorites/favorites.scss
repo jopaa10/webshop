@@ -3,7 +3,6 @@
   flex-direction: column;
   flex-wrap: wrap;
   justify-content: center;
-  align-items: center;
 
   &__cards {
     display: flex;
@@ -17,5 +16,6 @@
 
   p {
     color: white;
+    text-align: center;
   }
 }

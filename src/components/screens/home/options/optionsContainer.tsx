@@ -1,52 +1,56 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import { useGlobalContext } from "@/context/context";
-import { CartData } from "@/types/cart";
+import { SortOrder } from "@/types/sortOrder";
 import { filteredDataOptions } from "@/utils/mockData";
-import { useState } from "react";
+import CloseIcon from "@mui/icons-material/Close";
+import { Fragment, useState } from "react";
 import { OptionsCard } from "./optionsCard";
 import "./optionsContainer.scss";
 
 function OptionsContainer() {
   const [openDropdown, setOpenDropdown] = useState([]);
-  const { filteredData, selectedCheckboxes } = useGlobalContext();
+  const { selectedCheckboxes, handleRemoveFilter } = useGlobalContext();
 
   const options = filteredDataOptions();
-  console.log(options, filteredData);
 
-  // Function to generate the new object based on the selected filter
-  function generateFilterOptions(filter: string, filterType: "brand" | "ram") {
-    if (filterType === "brand") {
-      const availableRams: string[] = [];
-      return {
-        brand: [{ name: filter }],
-        ram: availableRams.map((ram) => ({ name: ram })),
-      };
-    } else if (filterType === "ram") {
-      const availableBrands: string[] = [];
-      return {
-        ram: [{ name: filter }],
-        brands: availableBrands.map((brand) => ({ name: brand })),
-      };
-    }
-    return {};
-  }
+  const newBrandOrder = (
+    brands: { name: string; count: number }[],
+    sortOrder: SortOrder
+  ): { name: string; count: number }[] => {
+    const sortedBrands = [...brands].sort((a, b) => {
+      if (sortOrder === "asc") {
+        return a.name.localeCompare(b.name);
+      } else {
+        return b.name.localeCompare(a.name);
+      }
+    });
 
-  // Example usage:
-  const selectedFilter: string = "samsung"; // or '6 gb' based on user selection
-  const filterType: "brand" | "ram" = selectedFilter.includes("gb")
-    ? "ram"
-    : "brand";
+    return sortedBrands;
+  };
 
-  const newObject = generateFilterOptions(selectedFilter, filterType);
-  console.log(newObject);
+  const sortedBrandsDescending = newBrandOrder(options?.brands || [], "asc");
+
+  options.ram.sort((a, b) => {
+    return Number(a.name.slice(0, 2)) - Number(b.name.slice(0, 2));
+  });
 
   return (
     <div className="filter-container">
       <p>Filter by</p>
+      <div className="filters">
+        {selectedCheckboxes?.map((item) => {
+          return (
+            <Fragment key={item}>
+              <p>{item}&nbsp;</p>
+              <button onClick={() => handleRemoveFilter(item)}>
+                <CloseIcon />
+              </button>
+            </Fragment>
+          );
+        })}
+      </div>
       <OptionsCard
         title={"Brand"}
-        items={selectedFilter ? newObject?.brand : options?.brands}
+        items={sortedBrandsDescending}
         openDropdown={openDropdown}
         setOpenDropdown={setOpenDropdown}
       />
@@ -58,7 +62,7 @@ function OptionsContainer() {
       /> */}
       <OptionsCard
         title={"RAM"}
-        items={newObject?.ram}
+        items={options?.ram}
         openDropdown={openDropdown}
         setOpenDropdown={setOpenDropdown}
       />

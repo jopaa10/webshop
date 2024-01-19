@@ -1,0 +1,16 @@
+@import "../../../../styles/scss/variables";
+
+.background {
+  filter: drop-shadow(0 1rem 0.5rem $card-box-shadow-color);
+
+  &__image {
+    background-image: url("/images/home_background.png");
+    background-size: cover;
+    background-position: top;
+    clip-path: ellipse(100% 80% at 50% 20%);
+
+    width: 100%;
+    min-height: 35rem;
+    position: relative;
+  }
+}

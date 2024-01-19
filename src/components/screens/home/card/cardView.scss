@@ -1,0 +1,57 @@
+.card-view {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  color: white;
+  border-bottom: 1px solid grey;
+  padding-bottom: 1.5rem;
+
+  &__icons {
+    font-size: 2rem;
+
+    display: flex;
+    list-style: none;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    cursor: pointer;
+
+    li {
+      display: flex;
+      justify-content: center;
+      min-width: 3rem;
+      min-height: 3rem;
+
+      .card-view__grid-icon,
+      .card-view__menu-icon {
+        display: flex;
+        justify-content: center;
+        align-self: center;
+
+        &--active {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          background: purple;
+          width: 3rem;
+          height: 3rem;
+          border-radius: 1.5rem;
+          color: white;
+        }
+      }
+
+      &:hover {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: grey;
+        width: 3rem;
+        height: 3rem;
+        border-radius: 1.5rem;
+        color: white;
+      }
+    }
+  }
+}

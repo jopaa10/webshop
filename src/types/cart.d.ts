@@ -7,6 +7,7 @@ export interface CartData {
   detail: string;
   brand: string;
   ram: string;
+  date: string;
 }
 
 export interface Card {

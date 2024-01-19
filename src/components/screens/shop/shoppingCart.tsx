@@ -7,8 +7,14 @@ import { useRouter } from "next/navigation";
 import "./shoppingCart.scss";
 
 function ShoppingCartPage() {
-  const { cart, removeItemFromCart, addToShoppingCart, decreaseItemQuantity } =
-    useGlobalContext();
+  const {
+    cart,
+    removeItemFromCart,
+    addToShoppingCart,
+    decreaseItemQuantity,
+    totalCost,
+    subTotalCost,
+  } = useGlobalContext();
   const router = useRouter();
 
   const handleNavigateToCardDetails = (id: string) => {
@@ -19,17 +25,17 @@ function ShoppingCartPage() {
     {
       id: 1,
       text: "Subtotal",
-      icon: "$",
+      icon: `${subTotalCost.toFixed(2)} $`,
     },
     {
       id: 2,
       text: "Tax",
-      icon: "%",
+      icon: "24 %",
     },
     {
       id: 3,
       text: "total",
-      icon: "$",
+      icon: `${totalCost.toFixed(2)} $`,
     },
   ];
 

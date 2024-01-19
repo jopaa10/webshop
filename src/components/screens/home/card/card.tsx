@@ -1,12 +1,8 @@
 import "./card.scss";
-
 import Image from "next/image";
-
 import TurnedInNotIcon from "@mui/icons-material/TurnedInNot";
 import TurnedInIcon from "@mui/icons-material/TurnedIn";
-
 import { useRouter } from "next/navigation";
-
 import { useGlobalContext } from "@/context/context";
 import { Card, CartData } from "@/types/cart";
 import { AddButton } from "@/components/common/addToCardButton/addButton";

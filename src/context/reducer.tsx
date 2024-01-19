@@ -170,18 +170,32 @@ export const reducer = (state: State, action: Action) => {
         updatedCheckboxes.push(value);
       }
       newData = MOCK_DATA.filter((item) =>
-        updatedCheckboxes.every((checkbox) =>
+        updatedCheckboxes.some((checkbox) =>
           [item.brand, item.ram].includes(checkbox)
         )
       );
-
-      console.log(updatedCheckboxes);
     }
 
     return {
       ...state,
       selectedCheckboxes: updatedCheckboxes,
       filteredData: newData,
+    };
+  }
+
+  if (action.type === Actions.REMOVE_FILTER) {
+    const { value } = action.payload;
+    let updatedCheckboxes: string[] = [];
+
+    if (state.selectedCheckboxes) {
+      updatedCheckboxes = state.selectedCheckboxes.filter(
+        (item) => item !== value
+      );
+    }
+
+    return {
+      ...state,
+      selectedCheckboxes: updatedCheckboxes,
     };
   }
   throw new Error(`no matching action types: ${action.type}`);

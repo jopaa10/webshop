@@ -11,7 +11,7 @@ export function OptionsCard({
   setOpenDropdown,
 }: any) {
   const isOpen = openDropdown.includes(title);
-  const { filterData, filteredData } = useGlobalContext();
+  const { handleFilterData, selectedCheckboxes } = useGlobalContext();
 
   const handleToggle = () => {
     if (isOpen) {
@@ -23,16 +23,10 @@ export function OptionsCard({
     }
   };
 
-  let isActive: boolean;
   const handleOnChange = (e: any) => {
     const { name, value } = e.target;
-
-    filterData(name.toLowerCase(), value.toLowerCase());
-
-    isActive = filteredData.some((dataItem) => dataItem.ram === value);
+    handleFilterData(name.toLowerCase(), value.toLowerCase());
   };
-
-  console.log(items);
 
   return (
     <Fragment>
@@ -58,20 +52,20 @@ export function OptionsCard({
           role="menu"
         >
           {items.map((item: any, index: number) => (
-            <li
-              key={index}
-              id="filter"
-              className={isActive ? "filter-active" : ""}
-            >
+            <li key={index}>
               <input
                 type="checkbox"
                 id={item.name}
                 name={title}
                 onChange={(e: any) => handleOnChange(e)}
                 value={item.name}
+                checked={selectedCheckboxes.includes(item.name) ? true : false}
               />
+              {/* <span className="checkmark"></span> */}
               <span>&nbsp;</span>
-              <label htmlFor={item.name}>{item.name}</label>
+              <label htmlFor={item.name} className="checkmark">
+                {item.name}
+              </label>
               <span>{item?.count}</span>
             </li>
           ))}

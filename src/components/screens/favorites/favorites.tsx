@@ -1,15 +1,18 @@
 import "./favorites.scss";
 
-import { PageTitle } from "@/components/common/pageTitle/pageTitle";
 import { CartData } from "@/types/cart";
 import Card from "../home/card/card";
+import { BackgroundImg } from "../home/backgroundImage/backgroundImg";
 
 export function FavoritesPage(props: { favorites: CartData[] }) {
   const { favorites } = props;
 
   return (
     <div className="favorites-container">
-      <PageTitle text={"Favorites"} />
+      <BackgroundImg
+        name={"Favorites"}
+        backgroundImg={"/images/favorites.jpg"}
+      />
 
       {favorites.length > 0 ? (
         <div className="favorites-container__cards">

@@ -1,0 +1,62 @@
+.card-list-view {
+  display: flex;
+  color: white;
+  justify-content: flex-start;
+  width: 100%;
+  padding: 1rem 0;
+
+  transition: all 0.4s ease-in-out;
+  cursor: pointer;
+
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 10px grey;
+    border-radius: 10px;
+  }
+
+  &:not(:last-child) {
+    border-bottom: 1px solid grey;
+  }
+
+  &__text {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 100%;
+    gap: 1rem;
+
+    &__button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+
+      border: 1px solid grey;
+      border-radius: 1rem;
+      box-shadow: 0 0 5px;
+
+      background: transparent;
+      color: #fff;
+
+      width: 10rem;
+      min-width: 7rem;
+      height: 3rem;
+
+      cursor: pointer;
+
+      transition: all 0.4s ease-in-out;
+
+      &:hover {
+        transform: scale(1.05);
+      }
+    }
+  }
+
+  &__price {
+    width: inherit;
+    display: flex;
+    justify-content: flex-end;
+
+    padding: 1rem;
+  }
+}
