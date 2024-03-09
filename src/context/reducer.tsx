@@ -1,14 +1,14 @@
 import { CartData } from "@/types/cart";
 import { AddToLocalStorage, LSKeyType } from "@/utils/addToLS";
-import { getCardById, MOCK_DATA } from "@/utils/mockData";
 import { Actions } from "./actions";
 
 interface Action {
   type: Actions;
   payload: {
-    id?: string;
+    id?: string | number;
     property?: keyof CartData;
     value?: string;
+    data?: CartData[];
   };
 }
 
@@ -18,33 +18,52 @@ interface State {
   totalQuantity: number;
   filteredData: CartData[];
   selectedCheckboxes: string[];
+  webshopData: CartData[] | undefined;
 }
 
 export const reducer = (state: State, action: Action) => {
+  if (action.type === Actions.SET_WEBSHOP_DATA) {
+    const { data } = action.payload;
+
+    return {
+      ...state,
+      webshopData: data,
+    };
+  }
+
   if (action.type === Actions.ADD_TO_FAVORITES) {
-    const storedFavorites: CartData[] = JSON.parse(
+    let updatedFavorites;
+
+    state.favorites = JSON.parse(
       localStorage.getItem(LSKeyType.FAVORITES) || "[]"
     );
 
-    const favoritesSet = new Set<CartData>(storedFavorites);
-    const isFavorite = storedFavorites.find(
-      (item) => item.id === Number(action.payload.id)
+    const favoritesSet = new Set<CartData>(state.favorites);
+    const isFavorite = state.favorites?.find(
+      (item) =>
+        item?.id === (action.payload.id !== undefined && +action.payload.id)
     );
 
-    let updatedFavorites: CartData[];
+    const handleGetCardById = async () => {
+      if (isFavorite) {
+        favoritesSet.delete(isFavorite);
+        updatedFavorites = Array.from(favoritesSet);
+      } else {
+        const favoritesData = state.webshopData?.find(
+          (item: CartData) =>
+            item.id === (action.payload.id !== undefined && +action.payload.id)
+        );
 
-    if (isFavorite) {
-      favoritesSet.delete(isFavorite);
-      updatedFavorites = Array.from(favoritesSet);
-    } else {
-      const favoritesData: CartData = getCardById(Number(action.payload.id))!;
-      favoritesSet.add(favoritesData);
-      updatedFavorites = Array.from(favoritesSet);
-    }
+        updatedFavorites = [...state.favorites, favoritesData] as CartData[];
+      }
+      AddToLocalStorage({ key: LSKeyType.FAVORITES, items: updatedFavorites });
+    };
 
-    AddToLocalStorage({ key: LSKeyType.FAVORITES, items: updatedFavorites });
+    handleGetCardById();
 
-    return { ...state, favorites: updatedFavorites };
+    return {
+      ...state,
+    };
   }
 
   if (action.type === Actions.REMOVE_FROM_FAVORITES) {
@@ -55,12 +74,14 @@ export const reducer = (state: State, action: Action) => {
     let newFavorites = [];
 
     if (dataFromLocalStorage) {
-      newFavorites = dataFromLocalStorage.filter(
-        (item: CartData) => item.id !== Number(action.payload.id)
+      newFavorites = dataFromLocalStorage?.filter(
+        (item: CartData) =>
+          item?.id !== (action.payload.id !== undefined && +action.payload.id)
       );
     } else {
       newFavorites = state.favorites.filter(
-        (item: CartData) => item.id !== Number(action.payload.id)
+        (item: CartData) =>
+          item?.id !== (action.payload.id !== undefined && +action.payload.id)
       );
     }
 
@@ -76,27 +97,39 @@ export const reducer = (state: State, action: Action) => {
     state.cart = JSON.parse(localStorage.getItem(LSKeyType.CART_ITEMS) || "[]");
 
     const isItemInCart = state.cart.find(
-      (item: CartData) => item.id === Number(action.payload.id)
+      (item: CartData) =>
+        item.id ===
+        (action.payload.id !== undefined &&
+          action.payload.id !== undefined &&
+          +action.payload.id)
     );
 
     let updatedCart;
+    const handleGetCardById = async () => {
+      if (isItemInCart) {
+        updatedCart = state.cart.map((item: CartData) =>
+          item.id ===
+          (action.payload.id !== undefined &&
+            action.payload.id !== undefined &&
+            +action.payload.id)
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        );
+      } else {
+        const cartData = state.webshopData?.find(
+          (item: CartData) =>
+            item.id === (action.payload.id !== undefined && +action.payload.id)
+        );
+        updatedCart = [...state.cart, cartData] as CartData[];
+      }
 
-    if (isItemInCart) {
-      updatedCart = state.cart.map((item: CartData) =>
-        item.id === Number(action.payload.id)
-          ? { ...item, quantity: item.quantity + 1 }
-          : item
-      );
-    } else {
-      const cartData = getCardById(Number(action.payload.id));
-      updatedCart = [...state.cart, cartData] as CartData[];
-    }
+      AddToLocalStorage({ key: LSKeyType.CART_ITEMS, items: updatedCart });
+    };
 
-    AddToLocalStorage({ key: LSKeyType.CART_ITEMS, items: updatedCart });
+    handleGetCardById();
 
     return {
       ...state,
-      cart: updatedCart,
     };
   }
 
@@ -107,7 +140,8 @@ export const reducer = (state: State, action: Action) => {
     const cartItems = new Set<CartData>(storedCartItems);
 
     const itemToRemove = Array.from(cartItems).find(
-      (item: CartData) => item.id === Number(action.payload.id)
+      (item: CartData) =>
+        item.id === (action.payload.id !== undefined && +action.payload.id)
     );
 
     if (itemToRemove) {
@@ -132,20 +166,22 @@ export const reducer = (state: State, action: Action) => {
 
     const cartItems = new Set<CartData>(storedCartItems);
     const itemFound = Array.from(cartItems).find(
-      (item: CartData) => item.id === Number(action.payload.id)
+      (item: CartData) =>
+        item.id === (action.payload.id !== undefined && +action.payload.id)
     );
 
     let updatedCart: CartData[];
 
     if (itemFound && itemFound?.quantity > 1) {
       updatedCart = Array.from(cartItems).map((item: CartData) =>
-        item.id === Number(action.payload.id)
+        item.id === (action.payload.id !== undefined && +action.payload.id)
           ? { ...item, quantity: item.quantity - 1 }
           : item
       );
     } else {
       updatedCart = Array.from(cartItems).filter(
-        (item: CartData) => item.id !== Number(action.payload.id)
+        (item: CartData) =>
+          item.id !== (action.payload.id !== undefined && +action.payload.id)
       );
     }
 
@@ -157,9 +193,17 @@ export const reducer = (state: State, action: Action) => {
     };
   }
 
+  if (action.type === Actions.DELETE_CART) {
+    AddToLocalStorage({ key: LSKeyType.CART_ITEMS, items: [] });
+    return {
+      ...state,
+      cart: [],
+    };
+  }
+
   if (action.type === Actions.FILTER_DATA) {
     const { value } = action.payload;
-    let newData: CartData[] = [];
+    let newData = [] as CartData[];
     const updatedCheckboxes = [...state.selectedCheckboxes];
 
     if (value !== undefined) {
@@ -169,11 +213,11 @@ export const reducer = (state: State, action: Action) => {
       } else {
         updatedCheckboxes.push(value);
       }
-      newData = MOCK_DATA.filter((item) =>
+      newData = state.webshopData?.filter((item) =>
         updatedCheckboxes.some((checkbox) =>
           [item.brand, item.ram].includes(checkbox)
         )
-      );
+      ) as CartData[];
     }
 
     return {
@@ -198,5 +242,6 @@ export const reducer = (state: State, action: Action) => {
       selectedCheckboxes: updatedCheckboxes,
     };
   }
+
   throw new Error(`no matching action types: ${action.type}`);
 };

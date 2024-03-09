@@ -41,4 +41,5 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 # webshop
 
-# webshop
+Space ID - fba3hjv1k34o
+Access token - OG8cgVNX7v5apUXzFJU*BGXBaqobxAU3K33zE*-mPFo

@@ -1,0 +1,22 @@
+.login-container {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  color: white;
+  background: #000;
+
+  ul {
+    list-style: none;
+    display: flex;
+
+    padding: 1rem 5rem;
+
+    cursor: pointer;
+
+    li {
+      &:is(:hover, :active) {
+        color: #fa8ecd !important;
+      }
+    }
+  }
+}

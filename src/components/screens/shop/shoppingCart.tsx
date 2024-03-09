@@ -1,10 +1,21 @@
-import { AddButton } from "@/components/common/addToCardButton/addButton";
 import { useGlobalContext } from "@/context/context";
 import { CartData } from "@/types/cart";
 import { CheckoutItems } from "@/types/checkoutItems";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import "./shoppingCart.scss";
+import { useSelector } from "react-redux";
+import { DeleteContainer } from "./deleteContainer/DeleteContainer";
+import { NavSubmitButton } from "./navSubmitButton/NavSubmitButton";
+import { CheckoutTotal } from "./checkoutTotal/CheckoutTotal";
+
+interface UserState {
+  userState: {
+    email: string;
+    password: string;
+    user: string;
+  };
+}
 
 function ShoppingCartPage() {
   const {
@@ -16,6 +27,7 @@ function ShoppingCartPage() {
     subTotalCost,
   } = useGlobalContext();
   const router = useRouter();
+  const user = useSelector((state: UserState) => state.userState);
 
   const handleNavigateToCardDetails = (id: string) => {
     router.push(`/${id}`);
@@ -39,6 +51,10 @@ function ShoppingCartPage() {
     },
   ];
 
+  const handleGoBackShopping = () => {
+    router.push("/");
+  };
+
   return (
     <section className="shopping-cart">
       <div className="cart-container">
@@ -47,47 +63,41 @@ function ShoppingCartPage() {
             <div key={item.id} className="cart-container__cart">
               <div className="details">
                 <Image
-                  src={item.image}
+                  src={`https:${item.image.fields.file.url}`}
                   alt={item.title}
                   width={100}
                   height={120}
                 />
 
                 <div className="details__text">
-                  <button
-                    className="navigation-button"
+                  <NavSubmitButton
                     onClick={() =>
                       handleNavigateToCardDetails(item.id.toString())
                     }
-                  >
-                    <h3>{item.title}</h3>
-                  </button>
+                    clsName={"navigation-button"}
+                    text={item.title}
+                    isCard={true}
+                  />
                   <p className="text">{item.detail}</p>
                   <p className="price">{item.price} $</p>
                   <div className="details__button-container">
-                    <button
+                    <NavSubmitButton
                       onClick={() => decreaseItemQuantity(item.id.toString())}
-                    >
-                      -
-                    </button>
+                      text={"-"}
+                    />
                     <p className="quantity">{item.quantity}</p>
-                    <button
+                    <NavSubmitButton
                       onClick={() => addToShoppingCart(item.id.toString())}
-                    >
-                      +
-                    </button>
+                      text={"+"}
+                    />
                   </div>
                 </div>
               </div>
-              <div className="delete-container">
-                <p>{item.price}$</p>
-                <AddButton
-                  text="Delete"
-                  buttonClass="delete-container__button"
-                  isDelete={true}
-                  handleOnClick={() => removeItemFromCart(item.id.toString())}
-                />
-              </div>
+              <DeleteContainer
+                price={item?.price}
+                removeItemFromCart={removeItemFromCart}
+                id={item?.id}
+              />
             </div>
           ))
         ) : (
@@ -96,20 +106,17 @@ function ShoppingCartPage() {
       </div>
       <div className="checkout-container">
         <p>Checkout </p>
-        <div className="checkout-container__total">
-          {checkoutItems.map((item: CheckoutItems) => (
-            <div key={item.id} className="checkout-items">
-              <p>{item.text}</p>
-              <span>{item.icon}</span>
-            </div>
-          ))}
-        </div>
-        <button className="checkout-container__proceed-button">
-          Proceed to checkout
-        </button>
-        <button className="checkout-container__continue-button">
-          Continue shopping
-        </button>
+        <CheckoutTotal checkoutItems={checkoutItems} />
+        <NavSubmitButton
+          onClick={() => router.push(user?.user ? `/checkout` : `/login`)}
+          clsName={"checkout-container__proceed-button"}
+          text={"Proceed to checkout"}
+        />
+        <NavSubmitButton
+          onClick={handleGoBackShopping}
+          clsName={"checkout-container__continue-button"}
+          text={"Continue shopping"}
+        />
       </div>
     </section>
   );

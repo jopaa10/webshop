@@ -2,6 +2,9 @@
 const path = require("path");
 
 const nextConfig = {
+  images: {
+    domains: ["images.ctfassets.net"],
+  },
   // disable css-modules component styling
   webpack(config) {
     config.module.rules.forEach((rule) => {
@@ -13,6 +16,7 @@ const nextConfig = {
         });
       }
     });
+
     return config;
   },
 };

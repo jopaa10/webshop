@@ -10,10 +10,12 @@ import {
 } from "react";
 import { Actions } from "./actions";
 import { reducer } from "./reducer";
+import { getWebshopData } from "@/utils/webshopData";
 
 interface InitialState {
   //isLoading: boolean;
   favorites: CartData[];
+  webshopData: CartData[] | undefined;
   addToFavorites(id: string): void;
   removeFromFavorites(id: string): void;
   cart: CartData[];
@@ -27,6 +29,7 @@ interface InitialState {
   subTotalCost: number;
   totalCost: number;
   handleRemoveFilter(filter: string): void;
+  handleDeleteCart(): void;
 }
 
 interface Props {
@@ -49,6 +52,8 @@ const initialState: InitialState = {
   subTotalCost: 0,
   totalCost: 0,
   handleRemoveFilter() {},
+  webshopData: [],
+  handleDeleteCart() {},
 };
 
 const WebshopContext = createContext<InitialState>(initialState);
@@ -87,20 +92,36 @@ export const WebShopProvider: React.FC<Props> = ({ children }) => {
     dispatch({ type: Actions.FILTER_DATA, payload: { value: filter } });
   };
 
+  const handleDeleteCart = () => {
+    dispatch({ type: Actions.DELETE_CART, payload: {} });
+  };
+
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const localFavorites = JSON.parse(
+      const fetchData = async () => {
+        try {
+          const webshopData = (await getWebshopData()) as unknown as CartData[];
+          dispatch({
+            type: Actions.SET_WEBSHOP_DATA,
+            payload: { data: webshopData },
+          });
+        } catch (error) {
+          console.log(error);
+        }
+      };
+
+      const localFavorites = JSON?.parse(
         localStorage.getItem(LSKeyType.FAVORITES) || "[]"
       );
-
-      const localCart = JSON.parse(
+      const localCart = JSON?.parse(
         localStorage.getItem(LSKeyType.CART_ITEMS) || "[]"
       );
 
-      if (localFavorites.length >= 0 || localCart.length >= 0) {
+      if (localFavorites?.length >= 0 || localCart?.length >= 0) {
         setNewFavorites(localFavorites);
         setNewCartData(localCart);
       }
+      fetchData();
     }
   }, [state.favorites, state.cart]);
 
@@ -108,6 +129,7 @@ export const WebShopProvider: React.FC<Props> = ({ children }) => {
     <WebshopContext.Provider
       value={{
         ...state,
+        webshopData: state.webshopData,
         favorites: newFavorites.length > 0 ? newFavorites : state.favorites,
         addToFavorites,
         removeFromFavorites,
@@ -122,6 +144,7 @@ export const WebShopProvider: React.FC<Props> = ({ children }) => {
         subTotalCost,
         totalCost,
         handleRemoveFilter,
+        handleDeleteCart,
       }}
     >
       {children}

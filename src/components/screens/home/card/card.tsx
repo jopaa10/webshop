@@ -7,8 +7,9 @@ import { useGlobalContext } from "@/context/context";
 import { Card, CartData } from "@/types/cart";
 import { AddButton } from "@/components/common/addToCardButton/addButton";
 
-function Card(props: Card): JSX.Element {
+function Card(props: Card) {
   const { detail, id, image, price, title } = props.card;
+  const { url } = image.fields.file;
 
   const router = useRouter();
   const { favorites, addToFavorites, removeFromFavorites, addToShoppingCart } =
@@ -40,7 +41,7 @@ function Card(props: Card): JSX.Element {
         </button>
       )}
 
-      <Image src={image} alt={title} width={150} height={150} />
+      <Image src={`https:${url}`} alt={title} width={150} height={150} />
 
       <a onClick={() => handleNavigateToDetails(id)} className={"card__title"}>
         {title}

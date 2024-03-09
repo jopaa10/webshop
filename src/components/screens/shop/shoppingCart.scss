@@ -4,8 +4,9 @@
 .shopping-cart {
   display: flex;
   overflow: hidden;
-
+  border-top: 1px solid $card-box-shadow-color;
   color: $card-text;
+  margin: 0 1rem;
 
   @include respond(sm-phone) {
     justify-content: center;
@@ -136,23 +137,21 @@
   }
 
   .checkout-container {
-    width: 25rem;
+    max-width: 30rem;
+    width: 100%;
     height: min-content;
 
     display: flex;
     flex-direction: column;
     align-items: center;
 
-    border-left: 1px solid $card-box-shadow-color;
-
-    padding: 2rem 1rem;
-    margin: 0 2rem;
+    padding: 1rem 2rem;
+    margin: 1rem 2rem;
+    background-color: #000;
+    border-radius: 10px;
 
     @include respond(sm-phone) {
       margin-top: 5rem;
-      border-top: 1px solid $card-box-shadow-color;
-      border-left: none;
-
       width: 100%;
     }
 
@@ -207,7 +206,8 @@
     }
 
     &__proceed-button {
-      background-color: rgb(21, 83, 216);
+      background-color: $card-border-purple;
+      border: 1px solid $card-border-purple;
       color: $card-text;
     }
 

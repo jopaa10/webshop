@@ -3,7 +3,13 @@ export interface CartData {
   title: string;
   price: number;
   quantity: number;
-  image: string;
+  image: {
+    fields: {
+      file: {
+        url: string;
+      };
+    };
+  };
   detail: string;
   brand: string;
   ram: string;

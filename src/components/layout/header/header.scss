@@ -11,7 +11,17 @@
   padding: 0 2rem;
 
   background-color: #000;
-  box-shadow: 3px 3px 10px $card-box-shadow-color;
+  // box-shadow: 3px 3px 10px $card-box-shadow-color;
+
+  // &::before {
+  //   content: "";
+  //   position: absolute;
+  //   bottom: 0;
+  //   left: 0;
+  //   width: 100%;
+  //   box-shadow: 3px 3px 10px $card-box-shadow-color;
+  //   z-index: -1;
+  // }
 
   @include respond(sm-phone) {
     justify-content: space-around;
@@ -35,7 +45,7 @@
       height: 4rem;
       position: absolute;
       transform: translate(-50%, -50%);
-      top: 4%;
+      top: 6.5%;
       right: 1rem;
 
       border-radius: 50%;

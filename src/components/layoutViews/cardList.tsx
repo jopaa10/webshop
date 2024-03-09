@@ -24,7 +24,12 @@ export function CardList({ products }: Props) {
           role="button"
           onClick={() => handleCardDetails(item.id.toString())}
         >
-          <Image src={item.image} width={150} height={150} alt={item.title} />
+          <Image
+            src={`https:${item.image.fields.file.url}`}
+            width={150}
+            height={150}
+            alt={item.title}
+          />
           <div className="card-list-view__text">
             <p>{item.title}</p>
             <p>{item.detail}</p>

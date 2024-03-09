@@ -14,6 +14,12 @@
   }
 
   @if $breakpoint == tab-lg_sm {
+    @media screen and (min-width: $md-sm) {
+      @content;
+    }
+  }
+
+  @if $breakpoint == tab-lg_lg {
     @media screen and (min-width: $md) {
       @content;
     }

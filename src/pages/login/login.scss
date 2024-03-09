@@ -1,0 +1,390 @@
+@import "../../styles/scss/mixins";
+@import "../../styles/scss/variables";
+
+.login-registration-container {
+  display: flex;
+  flex-grow: 1;
+  width: 100%;
+  height: 100%;
+  color: white;
+  align-items: center;
+  position: relative;
+
+  .login,
+  .registration {
+    display: flex;
+    width: 100%;
+    height: 100%;
+
+    max-width: 50%;
+    flex-direction: column;
+    justify-content: flex-start;
+    position: relative;
+
+    form {
+      width: 100%;
+      height: auto;
+      color: white;
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+      max-height: 40rem;
+      margin: auto 0;
+
+      .input {
+        position: relative;
+        margin-block-end: 1rem;
+
+        span {
+          position: absolute;
+          color: #000;
+          transform: translate(-50%, -50%);
+          left: 10%;
+          top: 50%;
+        }
+      }
+
+      input {
+        border: none;
+        min-height: 5rem;
+        height: 100%;
+        min-width: 30rem;
+        width: 100%;
+        padding: 0 4rem;
+        margin-block-end: 1rem;
+        padding-inline-start: 4rem;
+        padding-block-start: 0.5rem;
+
+        @include respond(sm-phone) {
+          min-width: 20rem;
+        }
+      }
+    }
+  }
+
+  .login {
+    transition: all 0.6s ease-in;
+    &--move-login-form-right {
+      animation: moveLoginRight 0.6s ease-in forwards;
+    }
+
+    &--move-login-form-left {
+      animation: moveLoginLeft 0.6s ease-in;
+      display: flex;
+    }
+  }
+
+  .registration {
+    transition: all 0.6s ease-in;
+
+    // form > input {
+    //   width: 20%;
+    // }
+
+    &--move-reg-form-left {
+      animation: moveRegistrationLeft 0.6s ease-in forwards;
+    }
+
+    &--move-reg-form-right {
+      animation: moveRegistrationRight 0.6s ease-in;
+    }
+  }
+
+  @keyframes moveLoginLeft {
+    0% {
+      transform: translateX(20%);
+      opacity: 0;
+    }
+
+    80% {
+      transform: translateX(10%);
+      opacity: 0.4;
+    }
+
+    100% {
+      transform: translateX(0%);
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+
+  @keyframes moveLoginRight {
+    0% {
+      transform: translateX(0%);
+      opacity: 1;
+    }
+
+    75% {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    100% {
+      transform: translateX(20%);
+      opacity: 0;
+      visibility: hidden;
+      //display: none;
+    }
+  }
+
+  @keyframes moveRegistrationRight {
+    0% {
+      transform: translateX(0%);
+      opacity: 0;
+    }
+
+    80% {
+      transform: translateX(10%);
+      opacity: 0.5;
+    }
+
+    100% {
+      transform: translateX(20%);
+      opacity: 1;
+    }
+  }
+
+  @keyframes moveRegistrationLeft {
+    0% {
+      transform: translateX(0%);
+      opacity: 1;
+    }
+
+    50% {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    100% {
+      transform: translateX(-20%);
+      opacity: 0;
+      visibility: hidden;
+      //display: none;
+    }
+  }
+}
+
+.log-reg-layout {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 40%;
+  height: 100%;
+  background: black;
+  color: white;
+  justify-content: center;
+  align-items: center;
+
+  align-self: flex-end;
+  text-transform: capitalize;
+
+  .button {
+    height: 2rem;
+
+    border-radius: 20px;
+    background-color: purple;
+    text-transform: uppercase;
+    border: none;
+    color: white;
+    min-height: 4rem;
+
+    max-width: 15rem;
+    width: 100%;
+
+    cursor: pointer;
+
+    &--scale-right {
+      animation: scaleButtonRight 1.4s ease-in forwards;
+    }
+
+    &--scale-left {
+      animation: scaleButtonLeft 0.8s ease-in forwards;
+    }
+  }
+
+  &--toggle-card {
+    animation: moveToLeft 0.6s ease-in;
+  }
+
+  &--toggle-card-right {
+    animation: moveToRight 0.6s ease-in forwards;
+  }
+}
+
+.log-text {
+  transform: translate(-50%, -50%);
+  position: absolute;
+  left: 40%;
+  z-index: 99;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 60%;
+  text-align: center;
+  top: -30px;
+
+  &--move-text-left {
+    animation: moveTextLeft 0.3s ease-in forwards;
+  }
+
+  &--move-text-right {
+    animation: moveTextRight 0.6s ease-in forwards;
+  }
+}
+
+.log-text,
+.reg-text {
+  .title {
+    font-size: 5rem;
+
+    @include respond(sm-phone) {
+      font-size: 3rem;
+    }
+  }
+
+  .details {
+    line-height: 3rem;
+    letter-spacing: 0.2rem;
+  }
+}
+
+.reg-text {
+  transform: translate(-50%, -50%);
+  position: absolute;
+  z-index: 99;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  left: 50%;
+  max-width: 60%;
+  text-align: center;
+  top: -30px;
+
+  &--move-text-right {
+    animation: moveRegTextRight 0.3s ease-in forwards;
+  }
+
+  &--move-text-left {
+    animation: moveRegTextLeft 0.6s ease-in forwards;
+  }
+}
+
+@keyframes moveToLeft {
+  0% {
+    transform: translateX(150%);
+  }
+
+  100% {
+    max-width: 60%;
+    transform: translateX(0);
+  }
+}
+
+@keyframes moveToRight {
+  0% {
+    transform: translateX(0%);
+    top: 0;
+  }
+
+  40%,
+  80% {
+    max-width: 60%;
+  }
+
+  100% {
+    transform: translateX(150%);
+    top: 0;
+    max-width: 40%;
+  }
+}
+
+@keyframes scaleButtonRight {
+  0% {
+    max-width: 15rem;
+  }
+
+  50% {
+    max-width: 20rem;
+    transform: translateX(30%);
+  }
+
+  100% {
+    max-width: 15rem;
+    transform: translate(0%);
+  }
+}
+
+@keyframes scaleButtonLeft {
+  0% {
+    max-width: 15rem;
+  }
+
+  50% {
+    max-width: 20rem;
+    transform: translateX(-30%);
+  }
+
+  100% {
+    max-width: 15rem;
+    transform: translate(0%);
+  }
+}
+
+@keyframes moveTextRight {
+  0% {
+    transform: translate(-200%, -50%);
+    opacity: 0;
+    width: 100%;
+  }
+
+  100% {
+    transform: translate(-50%, -50%);
+    opacity: 1;
+  }
+}
+
+@keyframes moveTextLeft {
+  0% {
+    transform: translate(-50%, -50%);
+    opacity: 1;
+  }
+
+  10% {
+    visibility: hidden;
+  }
+
+  100% {
+    transform: translate(-200%, -50%);
+    opacity: 0;
+  }
+}
+
+@keyframes moveRegTextRight {
+  0% {
+    transform: translate(-30%, -10%);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate(150%, -10%);
+    opacity: 0;
+    display: none;
+  }
+}
+
+@keyframes moveRegTextLeft {
+  0% {
+    transform: translate(150%, -10%);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translate(-30%, -10%);
+    opacity: 1;
+  }
+}

@@ -21,7 +21,12 @@ function CardDetail(props: { card?: CartData }) {
   return (
     <div className="card-info-container">
       <div className="card-info-container__image">
-        <Image src={image} alt={title} width={300} height={250} />
+        <Image
+          src={`https:${image.fields.file.url}`}
+          alt={title}
+          width={300}
+          height={250}
+        />
       </div>
       <div className="card-info-container__detail">
         <h3 className="card-title">{title}</h3>

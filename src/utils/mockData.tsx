@@ -2,7 +2,7 @@
 import { CartData } from "@/types/cart";
 import { SortOrder } from "@/types/sortOrder";
 
-export const MOCK_DATA: CartData[] = [
+export const MOCK_DATA: any[] = [
   {
     id: 1,
     title: "Samsung Galaxy s10",
@@ -148,12 +148,8 @@ export const MOCK_DATA: CartData[] = [
   },
 ];
 
-export const getCardById = (id: number | string) => {
-  return MOCK_DATA.find((item: CartData) => item.id === id);
-};
-
-export const filteredDataOptions = () => {
-  const counts = MOCK_DATA.reduce(
+export const filteredDataOptions = (webshopData: CartData[]) => {
+  const counts = webshopData?.reduce(
     (
       allItems: {
         ram: { [key: string]: number };
@@ -174,6 +170,7 @@ export const filteredDataOptions = () => {
     name: name,
     count,
   }));
+
   const brandArray = Object.entries(counts.brands).map(([name, count]) => ({
     name,
     count,

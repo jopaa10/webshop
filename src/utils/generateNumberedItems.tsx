@@ -1,12 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { CartData } from "@/types/cart";
-import { MOCK_DATA } from "./mockData";
+import { getWebshopData } from "./webshopData";
 
-export function GenerateNumberedItems(property: keyof CartData) {
-  const instances = MOCK_DATA.reduce(function (
+export async function GenerateNumberedItems(property: keyof CartData) {
+  const data = await getWebshopData();
+
+  const instances = data?.reduce(function (
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     allItems: any,
-    item: CartData
+    item: any
   ) {
     const itemProperty = item[property];
 

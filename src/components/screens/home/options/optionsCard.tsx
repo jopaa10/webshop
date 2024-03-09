@@ -1,7 +1,8 @@
 import { useGlobalContext } from "@/context/context";
-
 import { ArrowDropDown } from "@mui/icons-material";
 import { Fragment } from "react";
+import { FilterContainer } from "./FilterContainer";
+import "./optionsContainer.scss";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export function OptionsCard({
@@ -28,6 +29,8 @@ export function OptionsCard({
     handleFilterData(name.toLowerCase(), value.toLowerCase());
   };
 
+  console.log(selectedCheckboxes);
+
   return (
     <Fragment>
       <input
@@ -44,33 +47,13 @@ export function OptionsCard({
         </span>
       </label>
 
-      <div className={`filter-container__features`}>
-        <ul
-          className={`filter-container__dropdown-menu ${
-            isOpen ? "open" : "not-open"
-          }`}
-          role="menu"
-        >
-          {items.map((item: any, index: number) => (
-            <li key={index}>
-              <input
-                type="checkbox"
-                id={item.name}
-                name={title}
-                onChange={(e: any) => handleOnChange(e)}
-                value={item.name}
-                checked={selectedCheckboxes.includes(item.name) ? true : false}
-              />
-              {/* <span className="checkmark"></span> */}
-              <span>&nbsp;</span>
-              <label htmlFor={item.name} className="checkmark">
-                {item.name}
-              </label>
-              <span>{item?.count}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
+      <FilterContainer
+        isOpen={isOpen}
+        items={items}
+        title={title}
+        handleOnChange={handleOnChange}
+        selectedCheckboxes={selectedCheckboxes}
+      />
     </Fragment>
   );
 }

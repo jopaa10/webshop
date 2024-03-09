@@ -8,9 +8,10 @@ import "./optionsContainer.scss";
 
 function OptionsContainer() {
   const [openDropdown, setOpenDropdown] = useState([]);
-  const { selectedCheckboxes, handleRemoveFilter } = useGlobalContext();
+  const { selectedCheckboxes, handleRemoveFilter, webshopData } =
+    useGlobalContext();
 
-  const options = filteredDataOptions();
+  const options = filteredDataOptions(webshopData);
 
   const newBrandOrder = (
     brands: { name: string; count: number }[],
@@ -27,10 +28,10 @@ function OptionsContainer() {
     return sortedBrands;
   };
 
-  const sortedBrandsDescending = newBrandOrder(options?.brands || [], "asc");
+  const sortedBrandsDescending = newBrandOrder(options.brands || [], "asc");
 
-  options.ram.sort((a, b) => {
-    return Number(a.name.slice(0, 2)) - Number(b.name.slice(0, 2));
+  options.ram?.sort((a, b) => {
+    return +a.name.slice(0, 2) - +b.name.slice(0, 2);
   });
 
   return (
