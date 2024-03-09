@@ -18,8 +18,6 @@ const userSlice = createSlice({
       const user = getUserFromLocalStorage();
       const userData = { ...action.payload };
 
-      console.log(user);
-
       if (user.length === 0) {
         alert("user doesnt exist. Please registrate first");
         return;
