@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
@@ -29,6 +30,7 @@
     "@types/react-redux": "^7.1.33",
     "eslint": "^8",
     "eslint-config-next": "14.0.1",
+    "husky": "^8.0.0",
     "sass": "^1.69.5",
     "typescript": "^5"
   }
