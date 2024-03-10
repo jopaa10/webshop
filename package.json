@@ -10,6 +10,14 @@
     "prepare": "husky install",
     "pre-commit": "npm run lint"
   },
+  "lint-staged": {
+    "*.{js,ts,svelte}": [
+      "npm run check",
+      "npm run format",
+      "npm run format:check",
+      "npm run lint"
+    ]
+  },
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
