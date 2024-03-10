@@ -106,7 +106,7 @@ export const WebShopProvider: React.FC<Props> = ({ children }) => {
             payload: { data: webshopData },
           });
         } catch (error) {
-          console.log(error);
+          //console.log(error);
         }
       };
 

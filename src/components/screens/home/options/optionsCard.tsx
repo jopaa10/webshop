@@ -29,8 +29,6 @@ export function OptionsCard({
     handleFilterData(name.toLowerCase(), value.toLowerCase());
   };
 
-  console.log(selectedCheckboxes);
-
   return (
     <Fragment>
       <input

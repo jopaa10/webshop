@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint .",
+    "lint": "next lint",
     "prepare": "husky"
   },
   "dependencies": {
@@ -30,7 +30,7 @@
     "@types/react-redux": "^7.1.33",
     "eslint": "^8",
     "eslint-config-next": "14.0.1",
-    "husky": "^8.0.3",
+    "husky": "^9.0.11",
     "lint-staged": "^15.2.2",
     "sass": "^1.69.5",
     "typescript": "^5"
