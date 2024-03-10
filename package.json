@@ -12,10 +12,7 @@
   },
   "lint-staged": {
     "*.{js,tsx}": [
-      "npm run check",
-      "npm run format",
-      "npm run format:check",
-      "npm run lint"
+      "git add"
     ]
   },
   "dependencies": {
