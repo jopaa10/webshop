@@ -11,8 +11,8 @@
     "pre-commit": "npm run lint"
   },
   "lint-staged": {
-    "*.{js,tsx}": [
-      "git add"
+    "src/**/*": [
+      "npm eslint:format"
     ]
   },
   "dependencies": {
