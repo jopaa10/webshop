@@ -39,7 +39,7 @@ const userSlice = createSlice({
     logoutUser: (state) => {
       state.user = null;
       localStorage.removeItem("user");
-      console.log("logout dsjnfsjdk");
+      console.log("logout dsjnfsjdk dsnf");
     },
   },
 });
